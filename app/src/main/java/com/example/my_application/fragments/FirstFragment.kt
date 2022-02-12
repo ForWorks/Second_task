@@ -1,14 +1,15 @@
 package com.example.my_application.fragments
 
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.my_application.R
 import com.example.my_application.adapters.ElementsAdapter
-import com.example.my_application.classes.Constants
 import com.example.my_application.classes.Element
 import com.example.my_application.databinding.FragmentFirstBinding
 
@@ -33,18 +34,10 @@ class FirstFragment : Fragment(), ElementsAdapter.ItemClickListener {
         fun newInstance() = FirstFragment()
     }
 
-    override fun onItemClick(element: Element) {
-        val secondFragment = SecondFragment.newInstance()
-        val bundle = Bundle()
-        bundle.putInt(Constants.AVATAR, element.getAvatar())
-        bundle.putString(Constants.TITLE, element.getTitle())
-        bundle.putString(Constants.DESCRIPTION, element.getDescription())
-        secondFragment.arguments = bundle
-        activity
-            ?.supportFragmentManager
-            ?.beginTransaction()
-            ?.addToBackStack(null)
-            ?.replace(R.id.FrameLayout, secondFragment)
-            ?.commit()
+    override fun onItemClick(element: Element, view: AppCompatImageView) {
+        val actions = activity?.supportFragmentManager?.beginTransaction()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            actions?.addSharedElement(view, element.getTitle())
+        actions?.addToBackStack(null)?.replace(R.id.FrameLayout, SecondFragment.newInstance(element))?.commit()
     }
 }

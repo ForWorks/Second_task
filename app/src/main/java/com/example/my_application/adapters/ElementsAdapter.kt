@@ -1,5 +1,6 @@
 package com.example.my_application.adapters
 
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,8 +22,10 @@ class ElementsAdapter(private val listener: ItemClickListener, private val eleme
         holder.avatar.setImageResource(elements[position].getAvatar())
         holder.elementTitle.text = elements[position].getTitle()
         holder.elementDescription.text = elements[position].getDescription()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            holder.avatar.transitionName = elements[position].getTitle()
         holder.elementLayout.setOnClickListener {
-            listener.onItemClick(elements[position])
+            listener.onItemClick(elements[position], holder.avatar)
         }
     }
 
@@ -38,6 +41,6 @@ class ElementsAdapter(private val listener: ItemClickListener, private val eleme
     }
 
     interface ItemClickListener {
-        fun onItemClick(element: Element)
+        fun onItemClick(element: Element, view: AppCompatImageView)
     }
 }
