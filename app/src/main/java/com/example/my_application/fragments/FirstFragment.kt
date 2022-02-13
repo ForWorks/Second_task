@@ -31,7 +31,7 @@ class FirstFragment : Fragment(), ElementsAdapter.ItemClickListener {
 
     companion object {
         @JvmStatic
-        fun newInstance() = FirstFragment()
+        fun newInstance() = FirstFragment()// что за говно
     }
 
     override fun onItemClick(element: Element, view: AppCompatImageView) {
